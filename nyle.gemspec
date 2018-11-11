@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["spool.kitamura@nifty.ne.jp"]
 
   spec.summary       = %q{minimal graphics framework using Ruby/GTK3 with Cairo}
-  spec.description   = %q{'Nle' is a minimal graphics framework using Ruby/GTK3 with Cairo}
+  spec.description   = %q{'Nyle' is a minimal graphics framework using Ruby/GTK3 with Cairo}
   spec.homepage      = "https://github.com/spoolkitamura/nyle"
   spec.license       = "MIT"
 
@@ -40,4 +40,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
 
   spec.add_runtime_dependency "gtk3", "~> 3.3.0", ">= 3.3.0"
+  spec.add_runtime_dependency "rsvg2", "~> 3.3.0", ">= 3.3.0"
 end
