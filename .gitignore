@@ -1,0 +1,8 @@
+desktop.ini
+*.gem
+bin/
+doc/*.docx
+samples/.bundle/
+samples/Gemfile
+samples/Gemfile.lock
+samples/readme_torun.txt
