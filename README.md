@@ -26,11 +26,11 @@ require 'nyle'
 
 ## Documents
 
-Reference manual: https://github.com/spoolkitamura/nyle/doc/Nyle_reference.pdf
+Reference manual: https://github.com/spoolkitamura/nyle/tree/master/doc/Nyle_reference.pdf
 
 ## Samples
 
-Reference manual: https://github.com/spoolkitamura/nyle/samples
+Reference manual: https://github.com/spoolkitamura/nyle/tree/master/samples
 
 ## License
 
