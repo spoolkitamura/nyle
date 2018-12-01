@@ -15,6 +15,15 @@ require 'nyle/version'
 require 'nyle/frame'
 require 'nyle/screen'
 
+Gdk::Keyval.constants.each do |c|
+ #puts "#{c} #{Gdk::Keyval.const_get(c)}"
+  eval("#{c} = #{Gdk::Keyval.const_get(c)}")   # key name definication to omit 'Gdk::Keyval::'
+end
+
+MOUSE_L = 1
+MOUSE_M = 2
+MOUSE_R = 3
+
 module Nyle
   class Error < StandardError; end
 
@@ -132,6 +141,13 @@ module Nyle
   module_function def mask_control?           ;  Nyle.module_eval{ @__mask_control                  } ; end
   module_function def mask_shift?             ;  Nyle.module_eval{ @__mask_shift                    } ; end
   module_function def os                      ;  Nyle.module_eval{ @__os                            } ; end
+
+  module_function def save
+    cr = Nyle.module_eval{ @__cr }
+    cr.save do
+      yield
+    end
+  end
 
   module_function def draw_line(x1, y1, x2, y2, weight: 2, cap: :BUTT, color: :BLACK, a: 1.0)
     cr = Nyle.module_eval{ @__cr }
@@ -293,6 +309,32 @@ module Nyle
   module_function def save_image(filename)
     cr = Nyle.module_eval{ @__cr }
     cr.target.write_to_png(filename)
+  end
+
+  module INNER
+    # for Nyle.pixel* methods
+    class << self
+      private def _pixel(x, y)
+        cr = Nyle.module_eval{ @__cr }
+        surface = cr.target
+        address = surface.width * (y * 4) + (x * 4)
+        color   = surface.data.byteslice(address, 4).unpack("H*").first.upcase   # e.g. '\xcc\x77\x00\xff -> ['cc7700ff'] -> 'CC7700FF'
+        color   = '#'               +
+                  color.slice(4, 2) +
+                  color.slice(2, 2) +
+                  color.slice(0, 2) +
+                  color.slice(6, 2)     # BBGGRRAA -> #RRGGBBAA
+      end
+    end
+  end
+
+  module_function def pixel(x, y)
+    Nyle::INNER.module_eval{ _pixel(x, y) }
+  end
+
+  module_function def pixel?(x, y, color)
+    c = Nyle::INNER.module_eval{ _pixel(x, y) }
+    return (c == Cairo::Color.parse(color).to_s ? true : false)
   end
 
   module_function def translate(tx, ty)

@@ -13,7 +13,6 @@ module Nyle
 
   # Screen
   class Screen < Gtk::DrawingArea
-    include Gdk::Keyval                       # Include key definication to omit 'Gdk::Keyval::' for subclass
     attr_reader :width, :height, :status
     def initialize(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, bgcolor: :WHITE, trace: false)
       super()
@@ -24,25 +23,20 @@ module Nyle
       @running_count = 0
       @status        = nil
 
+      @fill_done     = false
+
       # Draw to 'CairoContext' of ImageSurface once, and copy to 'CairoContext' of DrawingArea
-      if @trace
-        # specified color background
-        # [WARN] Segmentation Fault happen after a while
-        #data = sprintf("%02X%02X%02X%02X", Cairo::Color.parse(@bgcolor).b * 255,
-        #                                   Cairo::Color.parse(@bgcolor).g * 255,
-        #                                   Cairo::Color.parse(@bgcolor).r * 255, 255)   # Hex            (e.g. CC7700FF; b=CC, g=77, r=00, a=FF)
-        #data = [data].pack("H*")                                                        # Pack as binary (e.g. \xCC\x77\x00\xFF)
-        #@canvas = Cairo::ImageSurface.new(data * @width * @height, :ARGB32, @width, @height, @width * 4)
-        @canvas = Cairo::ImageSurface.new(@width, @height)
-      else
-        # transparent background
-        @canvas = Cairo::ImageSurface.new(@width, @height)
-      end
+      @canvas = Cairo::ImageSurface.new(@width, @height)
+
       self.signal_connect(:configure_event) do |widget, event|
         ;   # For resizing and so on
       end
 
       self.signal_connect(:draw) do |widget, cairo_context|
+        Nyle.module_eval {
+          _update_mouse_state
+          _update_key_state
+        }
         # Draw to 'CairoContext' of ImageSurface
         Cairo::Context.new(@canvas) do |cr|
           Nyle.module_eval {
@@ -51,6 +45,12 @@ module Nyle
           unless @trace                       # If not trace, fill screen each time
             Nyle.cr.set_source_color(@bgcolor)
             Nyle.cr.paint
+          else
+            unless @fill_done
+              Nyle.cr.set_source_color(@bgcolor)  # fill once
+              Nyle.cr.paint
+              @fill_done = true
+            end
           end
           update
           draw
@@ -73,7 +73,7 @@ module Nyle
       # Signal handler for mouse position
       self.signal_connect(:motion_notify_event) do |widget, event|
         Nyle.module_eval {
-          _set_mouse_pos(event.x, event.y)
+          _set_mouse_pos(event.x.to_i, event.y.to_i)
         }
         false
       end
@@ -83,11 +83,6 @@ module Nyle
     def show_all(title = DEFAULT_TITLE)
       f = Nyle::Frame.new(@width, @height, {title: title})
       f.set_current(self)
-
-      # Workaround for Segmentation Fault when ImageSureface instance create by using RGBA32 data at Screen.initialize
-      f.override_background_color(:normal, Gdk::RGBA::new(Cairo::Color.parse(@bgcolor).r,
-                                                          Cairo::Color.parse(@bgcolor).g,
-                                                          Cairo::Color.parse(@bgcolor).b, 1.0))
       f.show_all
       f
     end

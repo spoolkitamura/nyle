@@ -5,18 +5,12 @@
 ## Requirements
 
 * Ruby/GTK3
-* rsvg2 (for Windows only)
 
 ## Installation
 
 Install it yourself as:
 
     $ gem install nyle
-
-Or for Windows
-
-    $ gem install nyle
-    $ gem rsvg2
 
 ## Usage
 
@@ -30,7 +24,7 @@ Reference manual: https://github.com/spoolkitamura/nyle/tree/master/doc/Nyle_ref
 
 ## Samples
 
-Reference manual: https://github.com/spoolkitamura/nyle/tree/master/samples
+Sample programs: https://github.com/spoolkitamura/nyle/tree/master/samples
 
 ## License
 

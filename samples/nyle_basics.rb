@@ -32,7 +32,7 @@ class Screen < Nyle::Screen
     Nyle.draw_rect(540, 200, 60, 30, {color: :ORANGE, fill: true, round: 5, a: 0.6})
 
     Nyle.draw_rect( 45, 250, 50, 30, {weight: 3, color: :GOLD})
-    Nyle.cr.save do
+    Nyle.save do
       for i in (1..5) do
         # rectangle (coordinate transformation)
         Nyle.rotate(Math::PI / 80)
@@ -55,7 +55,7 @@ class Screen < Nyle::Screen
     puts "[ctrl] + [shift]" if Nyle.mask_control? and Nyle.mask_shift?
 
     # mouse status
-    for k in (1..3)
+    [MOUSE_L, MOUSE_M, MOUSE_R].each do |k|
       puts "Nyle.mouse_press?(#{k})" if Nyle.mouse_press?(k)
     end
 

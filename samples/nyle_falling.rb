@@ -2,7 +2,7 @@
 require 'nyle'
 
 class Field
-  SKYLINE       = 400
+  SKYLINE = 400
 
   def initialize
     _init_score
@@ -52,7 +52,7 @@ class Item
     @x = rand(MOVING_RANGE_X)
     @y = 0
     @speed_x = (@xrange == 0 ? 0 : rand(@xrange) - (@xrange - 1) / 2)
-    @speed_y = rand(10) + 1
+    @speed_y = rand(10) + 3
   end
 
   def drop
@@ -77,7 +77,7 @@ class Item
 
   def clicked?
     clicked = false
-    if Nyle.mouse_press?(1)
+    if Nyle.mouse_press?(MOUSE_L)
       diffx = Nyle.mouse_x - self.centerx
       diffy = Nyle.mouse_y - self.centery
       if (diffx > -20) and (diffx < 20) and (diffy > -20) and (diffy < 20)

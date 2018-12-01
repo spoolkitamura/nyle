@@ -1,8 +1,10 @@
 desktop.ini
 *.gem
 bin/
+pkg/
 doc/*.docx
 samples/.bundle/
 samples/Gemfile
 samples/Gemfile.lock
-samples/readme_torun.txt
+samples/sketch.png
+samples/t_*.rb

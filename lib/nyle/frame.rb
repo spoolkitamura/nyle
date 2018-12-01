@@ -24,10 +24,6 @@ module Nyle
       @interval_time = 15 if @interval_time < 5 or @interval_time > 60
       GLib::Timeout.add(@interval_time) do
         if @current_screen
-          Nyle.module_eval {
-            _update_mouse_state
-            _update_key_state
-          }
           update
           @current_screen.queue_draw unless @current_screen.destroyed?
         end
@@ -80,10 +76,25 @@ module Nyle
       _set_current(screen)
     end
 
-    private def _set_current(screen)
-      self.remove(@current_screen) if @current_screen
-      @current_screen = screen
-      self.add(@current_screen)
+    private def _set_current(widget)
+      if widget.is_a?(Nyle::Screen)
+        self.remove(@current_screen) if @current_screen
+        @current_screen = widget
+        self.add(@current_screen)     # add instance which is kind of Nyle::Screen
+      else
+        screen = nil
+        widget.each do |child|
+          if child.is_a?(Nyle::Screen)
+            screen = child            # get instance which is kind of Nyle::Screen from container
+            break
+          end
+        end
+        if screen
+          self.remove(@current_screen) if @current_screen
+          @current_screen = screen
+          self.add(widget)            # add container
+        end
+      end
       w = @current_screen.width
       h = @current_screen.height
       Nyle.module_eval {

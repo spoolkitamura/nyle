@@ -97,10 +97,10 @@ class Ball
     @x  =  x
     @y  =  y
     @r  = 10
-    @dx =  4
-    @dy = -4
+    @dx =  5
+    @dy = -5
   end
- 
+
   def update(walls, blocks, paddle)
     @x +=@dx
     if _atari_array?(walls) or _atari?(paddle)
