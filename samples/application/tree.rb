@@ -1,4 +1,3 @@
-
 require 'nyle'
 
 class Screen < Nyle::Screen
@@ -30,11 +29,11 @@ class Screen < Nyle::Screen
     Nyle.translate(0, -len)                       # move origin
     len *= 0.66                                   # adjust length (two-thirds)
     if len > 2
-      Nyle.cr.save do
+      Nyle.save do
         Nyle.rotate(@theta)                       # rotate
         _branch(len)
       end
-      Nyle.cr.save do
+      Nyle.save do
         Nyle.rotate(-@theta)                      # rotate
         _branch(len)
       end

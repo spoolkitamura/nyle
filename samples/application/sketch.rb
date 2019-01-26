@@ -1,4 +1,3 @@
-
 require 'nyle'
 
 class Screen < Nyle::Screen

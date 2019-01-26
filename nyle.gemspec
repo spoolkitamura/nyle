@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Koki Kitamura"]
   spec.email         = ["spool.kitamura@nifty.ne.jp"]
 
-  spec.summary       = %q{minimal graphics framework using Ruby/GTK3 and Cairo}
-  spec.description   = %q{'Nyle' is a minimal graphics framework using Ruby/GTK3 and Cairo}
+  spec.summary       = %q{minimal graphics framework using Ruby/GTK3 and rcairo}
+  spec.description   = %q{'Nyle' is a minimal graphics framework using Ruby/GTK3 and rcairo}
   spec.homepage      = "https://github.com/spoolkitamura/nyle"
   spec.license       = "MIT"
 

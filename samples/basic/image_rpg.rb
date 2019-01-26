@@ -1,5 +1,6 @@
-
 require 'nyle'
+
+# Images: (c)2016 NISHIDA Ryota - http://dev.eyln.com (zlib License)
 
 class Character
   def initialize(x, y, tiles)
@@ -23,8 +24,8 @@ class Character
     @tx += 1             # animation to walk
     @tx  = 0 if @tx > 2  # range = (0..2)
 
-    @x += dx             # drawing position(x)
-    @y += dy             # drawing position(y)
+    @x += (dx * 2)       # drawing position(x)
+    @y += (dy * 2)       # drawing position(y)
 
     @x = -@tiles[0][0].width   if @x >  Nyle.screen_width     # right end
     @x =  Nyle.screen_width    if @x < -@tiles[0][0].width    # left end
@@ -36,17 +37,18 @@ end
 class Screen < Nyle::Screen
   def initialize
     super(510, 390)
-    @image            = Nyle.load_image("./image/n_i_bg.jpg", {sx: 0.5, sy: 0.5})
-    @image_half_right = Nyle.load_image("./image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx: 320, cy:   0, cw: 320, ch: 480})
-    @image_half_low   = Nyle.load_image("./image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx:   0, cy: 240, cw: 640, ch: 240})
-    @image_quarter    = Nyle.load_image("./image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx: 320, cy: 240, cw: 320, ch: 240})
 
-    @tiles01      = Nyle.load_image_tiles("./image/n_i_chara.png", 1, 1)   # itself
-    @tiles03      = Nyle.load_image_tiles("./image/n_i_chara.png", 3, 1)   # divide into  3 pieces horizontally
-    @tiles04      = Nyle.load_image_tiles("./image/n_i_chara.png", 1, 4)   # divide into  4 pieces vertically
-    @tiles12      = Nyle.load_image_tiles("./image/n_i_chara.png", 3, 4)   # divide into 12 pieces vertically and horizontally
+    @image            = Nyle.load_image("../image/n_i_bg.jpg", {sx: 0.5, sy: 0.5})
+    @image_half_right = Nyle.load_image("../image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx: 320, cy:   0, cw: 320, ch: 480})
+    @image_half_low   = Nyle.load_image("../image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx:   0, cy: 240, cw: 640, ch: 240})
+    @image_quarter    = Nyle.load_image("../image/n_i_bg.jpg", {sx: 0.5, sy: 0.5, cx: 320, cy: 240, cw: 320, ch: 240})
 
-    @tiles_player = Nyle.load_image_tiles("./image/n_i_chara.png", 3, 4, {sx: 1.25, sy: 1.25})   # divide into 12 pieces and enlarge
+    @tiles01      = Nyle.load_image_tiles("../image/n_i_chara.png", 1, 1)   # itself
+    @tiles03      = Nyle.load_image_tiles("../image/n_i_chara.png", 3, 1)   # divide into  3 pieces horizontally
+    @tiles04      = Nyle.load_image_tiles("../image/n_i_chara.png", 1, 4)   # divide into  4 pieces vertically
+    @tiles12      = Nyle.load_image_tiles("../image/n_i_chara.png", 3, 4)   # divide into 12 pieces vertically and horizontally
+
+    @tiles_player = Nyle.load_image_tiles("../image/n_i_chara.png", 3, 4, {sx: 1.25, sy: 1.25})   # divide into 12 pieces and enlarge
     @character = Character.new(140, 150, @tiles_player)
   end
 
@@ -86,9 +88,7 @@ class Screen < Nyle::Screen
   end
 
   def update
-    dx = (Nyle.key_down?(KEY_Right) ? 1 : (Nyle.key_down?(KEY_Left) ? -1 : 0))
-    dy = (Nyle.key_down?(KEY_Down)  ? 1 : (Nyle.key_down?(KEY_Up)   ? -1 : 0))
-    @character.move(dx, dy)
+    @character.move(Nyle.cursor_x, Nyle.cursor_y)
   end
 end
 

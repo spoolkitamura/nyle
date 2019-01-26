@@ -1,3 +1,24 @@
+### 0.6.1 (2019/01/xx)
+#### New features
+* add `Nyle.cursor_x` method
+* add `Nyle.cursor_y` method
+* enhance `Nyle.draw_image` to be able to specify option `pos`
+
+#### Bug fixes, etc.
+* adjust `Nyle.pixel` and `Nyle.pixel?` to apply 'to_i'
+* change format of color code from #RRGGBBAA to #RRGGBB
+* change maxinum value of @NYLE_INTERVAL` to '1000'
+* change `Nyle.quit` to close `Nyle::Frame` instead of `Gtk.main_quit`
+
+#### Reference manual
+* change PDF to WEB(wiki)
+
+#### Samples
+* use `Nyle.cursor_x` and `Nyle.cursor_y`
+* use option `pos` of `Nyle.draw_image`
+* prepare `launcher.rb` to run samples
+* ...and revise a lot
+
 
 ### 0.6.0 (2018/12/01)
 #### New features

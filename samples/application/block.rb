@@ -1,4 +1,3 @@
-
 require 'nyle'
 
 class Blocks < Array

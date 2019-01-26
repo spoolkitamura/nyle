@@ -1,7 +1,7 @@
 
 =begin
     'Nyle'
-      minimal graphics framework using Ruby/GTK3 and Cairo
+      minimal graphics framework using Ruby/GTK3 and rcairo
 
       Copyright (c) 2018 Koki Kitamura
       Released under the MIT license
@@ -21,13 +21,19 @@ module Nyle
       self.title     = title
       @transition    = []                          # Screen transition table
       @interval_time = ENV['NYLE_INTERVAL'].to_i   # milli seconds
-      @interval_time = 15 if @interval_time < 5 or @interval_time > 60
+      @interval_time = 15 if @interval_time < 5 or @interval_time > 1000
       GLib::Timeout.add(@interval_time) do
         if @current_screen
           update
           @current_screen.queue_draw unless @current_screen.destroyed?
         end
       end
+
+      # Nyle main frame
+      me = self
+      Nyle.module_eval {
+        _set_frame(me)
+      }
 
       # Mouse events
       self.add_events([:button_press_mask,
@@ -68,8 +74,12 @@ module Nyle
       end
 
       self.signal_connect(:destroy) do
-        Gtk.main_quit
+        _quit
       end
+    end
+
+    def close
+      _quit
     end
 
     def set_current(screen)
@@ -100,6 +110,11 @@ module Nyle
       Nyle.module_eval {
         _set_screen_size(w, h)
       }
+    end
+
+    private def _quit
+      self.hide
+      Gtk.main_quit
     end
 
     private def update

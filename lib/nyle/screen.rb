@@ -1,7 +1,7 @@
 
 =begin
     'Nyle'
-      minimal graphics framework using Ruby/GTK3 and Cairo
+      minimal graphics framework using Ruby/GTK3 and rcairo
 
       Copyright (c) 2018 Koki Kitamura
       Released under the MIT license
@@ -24,6 +24,10 @@ module Nyle
       @status        = nil
 
       @fill_done     = false
+
+      Nyle.module_eval {
+        _set_screen_size(width, height)
+      }
 
       # Draw to 'CairoContext' of ImageSurface once, and copy to 'CairoContext' of DrawingArea
       @canvas = Cairo::ImageSurface.new(@width, @height)
@@ -95,7 +99,4 @@ module Nyle
   end
 
 end
-
-
-# [TODO] :draw counter (for waiting, sleeping, idling)
 

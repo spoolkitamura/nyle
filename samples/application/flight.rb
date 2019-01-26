@@ -1,16 +1,15 @@
-
 require 'nyle'
 
 class Tree
   def initialize(x, y, z)
     @x, @y, @z = x, y, z
-    @image = Nyle.load_image('./image/n_fl_tree32.png')
+    @image = Nyle.load_image('../image/n_fl_tree32.png')
   end
 
   def draw(altitude)
     dx =  ((@x - 320) / @z)
     dy = (((@y - 240) / @z - 60) * ((altitude - 100) / 300.0) - (altitude - 230))
-    Nyle.cr.save do
+    Nyle.save do
       Nyle.translate(dx, dy)
       Nyle.scale(5 / @z, 5 / @z)
       Nyle.draw_image(0, 0, @image)
@@ -31,7 +30,7 @@ class Ground
   end
 
   def draw
-    Nyle.cr.save do
+    Nyle.save do
       # draw ground
       Nyle.translate(320, 240)
       Nyle.rotate(@angle)
@@ -48,14 +47,14 @@ class Ground
   end
 
   def update(angle, altitude)
-    @angle += (1.8 * angle / 180 * Math::PI)
+    @angle -= (1.8 * angle / 180 * Math::PI)
     if @angle < (-60.0 / 180 * Math::PI) then
       @angle = (-60.0 / 180 * Math::PI)
     end
     if @angle > (60.0 / 180 * Math::PI) then
       @angle = (60.0 / 180 * Math::PI)
     end
-    @altitude += (5 * altitude)
+    @altitude -= (5 * altitude)
     @altitude = 400 if @altitude > 400
     @altitude = 100 if @altitude < 100
   end
@@ -73,9 +72,7 @@ class Screen < Nyle::Screen
   end
 
   def update
-    angle    = (Nyle.key_down?(KEY_Right) ? -1 : (Nyle.key_down?(KEY_Left) ? 1 : 0))
-    altitude = (Nyle.key_down?(KEY_Down)  ? -1 : (Nyle.key_down?(KEY_Up)   ? 1 : 0))
-    @ground.update(angle, altitude)
+    @ground.update(Nyle.cursor_x, Nyle.cursor_y)
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end

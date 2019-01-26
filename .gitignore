@@ -2,9 +2,8 @@ desktop.ini
 *.gem
 bin/
 pkg/
-doc/*.docx
 samples/.bundle/
+samples/_RC
 samples/Gemfile
 samples/Gemfile.lock
-samples/sketch.png
-samples/t_*.rb
+samples/application/sketch.png

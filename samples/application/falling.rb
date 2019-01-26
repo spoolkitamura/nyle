@@ -1,4 +1,3 @@
-
 require 'nyle'
 
 class Field
@@ -91,13 +90,13 @@ end
 
 class Weapon < Item
   def initialize
-    super("image/n_f_weapon.png", 7, 0.4, 0.4)
+    super("../image/n_f_weapon.png", 7, 0.4, 0.4)
   end
 end
 
 class Banana < Item
   def initialize
-    super("image/n_f_banana.png", 0, 0.6, 0.6)
+    super("../image/n_f_banana.png", 0, 0.6, 0.6)
   end
 
   def get_score
@@ -107,7 +106,7 @@ end
 
 class Strawberry < Item
   def initialize
-    super("image/n_f_strawberry.png", 0, 0.6, 0.6)
+    super("../image/n_f_strawberry.png", 0, 0.6, 0.6)
   end
 
   def get_score
@@ -120,7 +119,7 @@ class Hero
   MOVING_RANGE_X = 640
 
   def initialize(x, y)
-    @image = Nyle.load_image("./image/n_f_panda.png", {sx: 0.3, sy: 0.3, color_key: :WHITE})
+    @image = Nyle.load_image("../image/n_f_panda.png", {sx: 0.3, sy: 0.3, color_key: :WHITE})
     @x = x - @image.width / 2
     @y = y - @image.height
     @speed = 3.5
@@ -227,8 +226,7 @@ class Screen_Play < Nyle::Screen
     @bananas.each      { |banana|      banana.drop      }
     @strawberries.each { |strawberrie| strawberrie.drop }
     _detect
-    @hero.move( 1, 0) if Nyle.key_down?(KEY_Right)
-    @hero.move(-1, 0) if Nyle.key_down?(KEY_Left)
+    @hero.move(Nyle.cursor_x, 0)
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 

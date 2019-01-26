@@ -1,6 +1,6 @@
 # Nyle
 
-'Nyle' is a minimal graphics framework using Ruby/GTK3 and Cairo.
+'Nyle' is a minimal graphics framework using Ruby/GTK3 and rcairo.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ require 'nyle'
 
 ## Documents
 
-Reference manual: https://github.com/spoolkitamura/nyle/tree/master/doc/Nyle_reference.pdf
+Reference manual: https://github.com/spoolkitamura/nyle/wiki
 
 ## Samples
 

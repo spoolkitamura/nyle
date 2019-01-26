@@ -1,7 +1,7 @@
 
 =begin
     'Nyle'
-      minimal graphics framework using Ruby/GTK3 and Cairo
+      minimal graphics framework using Ruby/GTK3 and rcairo
 
       Copyright (c) 2018 Koki Kitamura
       Released under the MIT license
@@ -46,6 +46,8 @@ module Nyle
   @__key_release     = {}
   @__mask_control    = false
   @__mask_shift      = false
+  @__cursor_x        = 0
+  @__cursor_y        = 0
 
   @__os = (
     host_os = RbConfig::CONFIG['host_os']
@@ -60,11 +62,15 @@ module Nyle
       :unknown
     end
   )
-
+  @__frame = nil   # main frame
 
   # Singleton class
   class << self
     # private methods for classes in module 'Nyle'
+    private def _set_frame(frame)
+      @__frame = frame
+    end
+
     private def _set_cr(cr)
       @__cr = cr
     end
@@ -120,6 +126,23 @@ module Nyle
         else
           @__mask_shift = false                                  # Set false to mask_shift status
         end
+
+        if @__key_down[Gdk::Keyval::KEY_Right]
+          @__cursor_x = +1                                       # Set +1 to cursor_x value
+        elsif @__key_down[Gdk::Keyval::KEY_Left]
+          @__cursor_x = -1                                       # Set -1 to cursor_x value
+        else
+          @__cursor_x =  0
+        end
+
+        if @__key_down[Gdk::Keyval::KEY_Down]
+          @__cursor_y = +1                                       # Set +1 to cursor_y value
+        elsif @__key_down[Gdk::Keyval::KEY_Up]
+          @__cursor_y = -1                                       # Set -1 to cursor_y value
+        else
+          @__cursor_y =  0
+        end
+
       end
     end
   end
@@ -140,6 +163,8 @@ module Nyle
   module_function def key_release?(keyval)    ;  Nyle.module_eval{ @__key_release  [keyval] == true } ; end
   module_function def mask_control?           ;  Nyle.module_eval{ @__mask_control                  } ; end
   module_function def mask_shift?             ;  Nyle.module_eval{ @__mask_shift                    } ; end
+  module_function def cursor_x                ;  Nyle.module_eval{ @__cursor_x                      } ; end
+  module_function def cursor_y                ;  Nyle.module_eval{ @__cursor_y                      } ; end
   module_function def os                      ;  Nyle.module_eval{ @__os                            } ; end
 
   module_function def save
@@ -154,13 +179,9 @@ module Nyle
     cr.save do
       cr.line_width = weight
       cr.line_cap   = cap
-      if a == 1.0
-        cr.set_source_color(color)
-      else
-        cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                           Cairo::Color.parse(color).g, 
-                           Cairo::Color.parse(color).b, a)
-      end
+      cr.set_source_rgba(Cairo::Color.parse(color).r, 
+                         Cairo::Color.parse(color).g, 
+                         Cairo::Color.parse(color).b, a)
       cr.move_to(x1, y1)
       cr.line_to(x2, y2)
       cr.stroke
@@ -172,13 +193,9 @@ module Nyle
     cr.save do
       cr.line_width = weight
       cr.line_cap   = cap
-      if a == 1.0
-        cr.set_source_color(color)
-      else
-        cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                           Cairo::Color.parse(color).g, 
-                           Cairo::Color.parse(color).b, a)
-      end
+      cr.set_source_rgba(Cairo::Color.parse(color).r, 
+                         Cairo::Color.parse(color).g, 
+                         Cairo::Color.parse(color).b, a)
       if round
         cr.rounded_rectangle(x, y, w, h, round, round)
       else
@@ -196,13 +213,9 @@ module Nyle
     cr = Nyle.module_eval{ @__cr }
     cr.save do
       cr.line_width = weight
-      if a == 1.0
-        cr.set_source_color(color)
-      else
-        cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                           Cairo::Color.parse(color).g, 
-                           Cairo::Color.parse(color).b, a)
-      end
+      cr.set_source_rgba(Cairo::Color.parse(color).r, 
+                         Cairo::Color.parse(color).g, 
+                         Cairo::Color.parse(color).b, a)
       cr.circle(x, y, r)
       if fill
         cr.fill
@@ -217,13 +230,9 @@ module Nyle
     cr.save do
       cr.line_width = weight
       cr.line_cap   = cap
-      if a == 1.0
-        cr.set_source_color(color)
-      else
-        cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                           Cairo::Color.parse(color).g, 
-                           Cairo::Color.parse(color).b, a)
-      end
+      cr.set_source_rgba(Cairo::Color.parse(color).r, 
+                         Cairo::Color.parse(color).g, 
+                         Cairo::Color.parse(color).b, a)
       vertex = points.dup
       vertex << vertex.first if close   # closed shape
       vertex.each do |v|
@@ -242,13 +251,9 @@ module Nyle
     cr.save do
       cr.select_font_face("+")   # Temporaly use "+"  [TODO] (Need to confirm font name)
       cr.font_size = size
-      if a == 1.0
-        cr.set_source_color(color)
-      else
-        cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                           Cairo::Color.parse(color).g, 
-                           Cairo::Color.parse(color).b, a)
-      end
+      cr.set_source_rgba(Cairo::Color.parse(color).r, 
+                         Cairo::Color.parse(color).g, 
+                         Cairo::Color.parse(color).b, a)
       cr.move_to(x, y)
       cr.show_text(str)
     end
@@ -298,10 +303,14 @@ module Nyle
     tiles
   end
 
-  module_function def draw_image(x, y, pixbuf)
+  module_function def draw_image(x, y, pixbuf, pos: :CORNER)
     cr = Nyle.module_eval{ @__cr }
     cr.save do
-      cr.set_source_pixbuf(pixbuf, x, y)
+      if pos == :CENTER
+        cr.set_source_pixbuf(pixbuf, x - pixbuf.width / 2, y - pixbuf.height / 2)
+      else
+        cr.set_source_pixbuf(pixbuf, x, y)   # :CORNER
+      end
       cr.paint
     end
   end
@@ -317,13 +326,12 @@ module Nyle
       private def _pixel(x, y)
         cr = Nyle.module_eval{ @__cr }
         surface = cr.target
-        address = surface.width * (y * 4) + (x * 4)
+        address = surface.width * (y.to_i * 4) + (x.to_i * 4)
         color   = surface.data.byteslice(address, 4).unpack("H*").first.upcase   # e.g. '\xcc\x77\x00\xff -> ['cc7700ff'] -> 'CC7700FF'
         color   = '#'               +
                   color.slice(4, 2) +
                   color.slice(2, 2) +
-                  color.slice(0, 2) +
-                  color.slice(6, 2)     # BBGGRRAA -> #RRGGBBAA
+                  color.slice(0, 2)     # #BBGGRR -> #RRGGBB
       end
     end
   end
@@ -334,7 +342,7 @@ module Nyle
 
   module_function def pixel?(x, y, color)
     c = Nyle::INNER.module_eval{ _pixel(x, y) }
-    return (c == Cairo::Color.parse(color).to_s ? true : false)
+    return (c == Cairo::Color.parse(color).to_s[0, 7] ? true : false)
   end
 
   module_function def translate(tx, ty)
@@ -353,7 +361,8 @@ module Nyle
   end
 
   module_function def quit
-    Gtk.main_quit
+    @__frame.close if @__frame   # destroy
+#    Gtk.main_quit
   end
 
 end

@@ -1,8 +1,7 @@
-
 require 'nyle'
 
 class Walker
-  RADIUS = 3
+  RADIUS = 4
   def initialize(max_x, max_y)
     @max_x = max_x
     @max_y = max_y
@@ -26,7 +25,7 @@ class Walker
   end
 
   def draw
-    Nyle.draw_circle(@x, @y, RADIUS, {color: :RED, fill: true})
+    Nyle.draw_circle(@x, @y, RADIUS, {color: :BLUE, fill: true})
   end
 end
 
@@ -48,6 +47,7 @@ class Screen < Nyle::Screen
   end
 
 end
+
 
 Screen.new.show_all
 Gtk.main

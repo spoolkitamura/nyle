@@ -1,4 +1,3 @@
-
 require 'nyle'
 
 class Dot
@@ -57,6 +56,7 @@ class Screen < Nyle::Screen
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 end
+
 
 Screen.new.show_all
 Gtk.main
