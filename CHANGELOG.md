@@ -1,4 +1,4 @@
-### 0.6.1 (2019/01/xx)
+### 0.6.1 (2019/01/27)
 #### New features
 * add `Nyle.cursor_x` method
 * add `Nyle.cursor_y` method
