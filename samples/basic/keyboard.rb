@@ -2,7 +2,7 @@ require 'nyle'
 
 class Screen < Nyle::Screen
   def initialize
-    super(200, 200)
+    super(200, 200, {bgcolor: :IVORY})
   end
 
   def draw
@@ -16,8 +16,8 @@ class Screen < Nyle::Screen
     stat = "[escape]"    if Nyle.key_down?(KEY_Escape)
     stat = "[left]"      if Nyle.key_down?(KEY_Left)
     stat = "[up]"        if Nyle.key_down?(KEY_Up)
-    stat = "[down]"      if Nyle.key_down?(KEY_Right)
-    stat = "[right]"     if Nyle.key_down?(KEY_Down)
+    stat = "[down]"      if Nyle.key_down?(KEY_Down)
+    stat = "[right]"     if Nyle.key_down?(KEY_Right)
     stat = "[insert]"    if Nyle.key_down?(KEY_Insert)
     stat = "[delete]"    if Nyle.key_down?(KEY_Delete)
     stat = "[home]"      if Nyle.key_down?(KEY_Home)

@@ -246,16 +246,24 @@ module Nyle
     end
   end
 
-  module_function def draw_text(x, y, str, size: 32, color: :BLACK, a: 1.0)
+  module_function def draw_text(x, y, str, size: 32, color: :BLACK, a: 1.0, font: "sans-serif", italic: false, bold: false)
     cr = Nyle.module_eval{ @__cr }
     cr.save do
-      cr.select_font_face("+")   # Temporaly use "+"  [TODO] (Need to confirm font name)
-      cr.font_size = size
-      cr.set_source_rgba(Cairo::Color.parse(color).r, 
-                         Cairo::Color.parse(color).g, 
+      pango_layout = cr.create_pango_layout
+      pango_layout.text = str
+      font_description        = Pango::FontDescription.new
+      font_description.family = font
+      font_description.style  = :italic if italic
+      font_description.weight = 700 if bold
+      font_description.size   = size * (72.0 / 96.0) * Pango::SCALE
+      pango_layout.font_description = font_description
+      cr.update_pango_layout(pango_layout)
+      cr.set_source_rgba(Cairo::Color.parse(color).r,
+                         Cairo::Color.parse(color).g,
                          Cairo::Color.parse(color).b, a)
-      cr.move_to(x, y)
-      cr.show_text(str)
+      delta = (Nyle.module_eval{ @__os } == :mac ? size * (72.0 / 96.0) : size)
+      cr.move_to(x, y - delta)   # Why :mac?
+      cr.show_pango_layout(pango_layout)
     end
   end
 

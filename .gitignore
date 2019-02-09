@@ -1,9 +1,0 @@
-desktop.ini
-*.gem
-bin/
-pkg/
-samples/.bundle/
-samples/_RC
-samples/Gemfile
-samples/Gemfile.lock
-samples/application/sketch.png

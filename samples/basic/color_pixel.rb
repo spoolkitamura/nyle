@@ -16,11 +16,11 @@ class Screen < Nyle::Screen
 
     x, y = Nyle.mouse_x, Nyle.mouse_y
     if Nyle.pixel?(x, y, :WHITE)
-      Nyle.draw_text(10, 220, 'Move mouse cursor over any tile', {size: 16})
+      Nyle.draw_text(10, 220, 'Move mouse pointer over any tile', {size: 14})
     else
       color = Nyle.pixel(x, y)
       info = "(x=%3d, y=%3d)  %s" % [x, y, color]
-      Nyle.draw_text(10, 220, info, {size: 20, color: color})
+      Nyle.draw_text(10, 220, info, {size: 18, color: color})
     end
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)

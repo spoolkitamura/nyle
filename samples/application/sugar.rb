@@ -41,7 +41,7 @@ class Screen < Nyle::Screen
   BGCOLOR = :BLACK
 
   def initialize
-    super(120, 240, {bgcolor: BGCOLOR, trace: true})
+    super(240, 240, {bgcolor: BGCOLOR, trace: true})
     @dots = []
   end
 
@@ -49,7 +49,7 @@ class Screen < Nyle::Screen
     x, y = Nyle.mouse_x, Nyle.mouse_y
     Nyle.draw_circle(x, y, 5, {color: FGCOLOR, fill: true}) if Nyle.mouse_down?(MOUSE_L)
     Nyle.draw_circle(x, y, 5, {color: BGCOLOR, fill: true}) if Nyle.mouse_down?(MOUSE_R)
-    @dots << Dot.new(rand(20) + 50, 0) if @dots.size <= 300   # create dots (limit = 300)
+    @dots << Dot.new(rand(20) + 110, 0) if @dots.size <= 300   # create dots (limit = 300)
     @dots.delete_if do |dot|
       dot.move                                                # move dots
     end

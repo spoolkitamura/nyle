@@ -1,3 +1,16 @@
+### 0.7.0 (2019/02/09)
+#### New features
+* enhance `draw_text` to be able to specify font attributes(font-name, italic, bold)
+* change implementation of `draw_text` to use `show_pango_layout` instead of `show_text`
+
+#### Bug fixes, etc.
+* adjust `nyle.gemspec`
+
+#### Samples
+* revise `draw_text.rb`
+* ...and adjust other samples a little
+
+
 ### 0.6.1 (2019/01/27)
 #### New features
 * add `Nyle.cursor_x` method

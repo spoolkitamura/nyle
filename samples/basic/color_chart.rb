@@ -33,12 +33,6 @@ class Screen < Nyle::Screen
       @start_index = 0 if @start_index >= @colors.length
     end
 
-    if Nyle.key_press?(KEY_space)
-      @colors.each do |c|
-        puts "#{Cairo::Color.parse(c).to_s} (#{c.to_s})"
-      end
-    end
-
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 

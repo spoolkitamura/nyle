@@ -2,7 +2,7 @@ require 'nyle'
 
 class Screen < Nyle::Screen
   def initialize
-    super
+    super({bgcolor: :ALICE_BLUE})
     @image1 = Nyle.load_image("../image/n_b_crocodile.png")
     @th = 0
   end

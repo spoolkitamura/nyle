@@ -16,8 +16,9 @@ module Samples
       text_window.add(@text)
 
       hpaned = Gtk::Paned.new(:horizontal)
-      hpaned.add(tree_window, resize: true, shrink: false)
-      hpaned.add(text_window, resize: true, shrink: false)
+      hpaned.add(tree_window, resize: false, shrink: false)
+      hpaned.add(text_window, resize: true,  shrink: false)
+      hpaned.position = 240
 
       self.add(hpaned)
       self.set_size_request(640, 640)
@@ -55,7 +56,9 @@ module Samples
 
     def create_text
       text_view = Gtk::TextView.new
-      text_view.override_font(Pango::FontDescription.new('Monospace 10'))
+      font_description = Pango::FontDescription.new('Monospace')
+      font_description.size = (/darwin|mac os/ === RUBY_PLATFORM ? 13.3 : 10) * Pango::SCALE
+      text_view.override_font(font_description)
       text_view.set_wrap_mode(:none)
       text_view.set_editable(false)
       text_view.set_cursor_visible(false)

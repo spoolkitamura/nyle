@@ -4,13 +4,17 @@
 
 ## Requirements
 
-* Ruby/GTK3
+Ruby/GTK3 >= 3.3.0
 
 ## Installation
 
 Install it yourself as:
 
     $ gem install nyle
+
+If using `gtk3-3.3.0` on Windows, you need the following further.
+
+    $ gem install rsvg2 -v 3.3.0
 
 ## Usage
 
@@ -20,11 +24,12 @@ require 'nyle'
 
 ## Documents
 
-Reference manual: https://github.com/spoolkitamura/nyle/wiki
+https://github.com/spoolkitamura/nyle/wiki  
 
 ## Samples
 
-Sample programs: https://github.com/spoolkitamura/nyle/tree/master/samples
+https://github.com/spoolkitamura/nyle/tree/master/samples  
+https://github.com/spoolkitamura/nyle/wiki/Samples  
 
 ## License
 
