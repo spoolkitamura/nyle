@@ -27,9 +27,12 @@ MOUSE_R = 3
 module Nyle
   class Error < StandardError; end
 
-  DEFAULT_WIDTH  = 640
-  DEFAULT_HEIGHT = 480
-  DEFAULT_TITLE  = 'Nyle'
+  DEFAULT_WIDTH      =   640
+  DEFAULT_HEIGHT     =   480
+  DEFAULT_TITLE      = 'Nyle'
+  DEFAULT_INTERVAL   =    15
+  MIN_INTERVAL       =     5
+  MAX_INTERVAL       =  1000
 
   @__cr              = nil
   @__screen_width    = DEFAULT_WIDTH
@@ -48,6 +51,9 @@ module Nyle
   @__mask_shift      = false
   @__cursor_x        = 0
   @__cursor_y        = 0
+  @__running_time    = 0
+
+  @__frame           = nil   # main frame
 
   @__os = (
     host_os = RbConfig::CONFIG['host_os']
@@ -62,7 +68,6 @@ module Nyle
       :unknown
     end
   )
-  @__frame = nil   # main frame
 
   # Singleton class
   class << self
@@ -142,8 +147,29 @@ module Nyle
         else
           @__cursor_y =  0
         end
-
       end
+    end
+
+    private def _clear_mouse_state
+      @__mouse_down.clear
+      @__mouse_down_last.clear
+      @__mouse_press.clear
+      @__mouse_release.clear
+    end
+
+    private def _clear_key_state
+      @__key_down.clear
+      @__key_down_last.clear
+      @__key_press.clear
+      @__key_release.clear
+    end
+
+    private def _set_running_time(rt)
+      @__running_time = rt
+    end
+
+    private def _clear_running_time
+      @__running_time = 0
     end
   end
 
@@ -165,7 +191,13 @@ module Nyle
   module_function def mask_shift?             ;  Nyle.module_eval{ @__mask_shift                    } ; end
   module_function def cursor_x                ;  Nyle.module_eval{ @__cursor_x                      } ; end
   module_function def cursor_y                ;  Nyle.module_eval{ @__cursor_y                      } ; end
+  module_function def running_time            ;  Nyle.module_eval{ @__running_time                  } ; end
   module_function def os                      ;  Nyle.module_eval{ @__os                            } ; end
+
+  alias_method :w, :screen_width
+  alias_method :h, :screen_height
+  module_function :w
+  module_function :h
 
   module_function def save
     cr = Nyle.module_eval{ @__cr }
@@ -230,6 +262,7 @@ module Nyle
     cr.save do
       cr.line_width = weight
       cr.line_cap   = cap
+      cr.line_join  = :ROUND if cap == :ROUND
       cr.set_source_rgba(Cairo::Color.parse(color).r, 
                          Cairo::Color.parse(color).g, 
                          Cairo::Color.parse(color).b, a)
@@ -353,6 +386,10 @@ module Nyle
     return (c == Cairo::Color.parse(color).to_s[0, 7] ? true : false)
   end
 
+  module_function def clear
+    Nyle.module_eval{ @__frame.current_screen.clear_screen }
+  end
+
   module_function def translate(tx, ty)
     cr = Nyle.module_eval{ @__cr }
     cr.translate(tx, ty)
@@ -368,9 +405,21 @@ module Nyle
     cr.scale(sx, sy)
   end
 
+  module_function def create_screen(*args)
+    Nyle::Screen.new(*args)
+  end
+
+  module_function def create_frame(*args)
+    Nyle::Frame.new(*args)
+  end
+
   module_function def quit
     @__frame.close if @__frame   # destroy
 #    Gtk.main_quit
+  end
+
+  module_function def main
+    Gtk.main
   end
 
 end

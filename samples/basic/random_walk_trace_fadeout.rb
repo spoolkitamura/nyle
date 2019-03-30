@@ -39,6 +39,7 @@ class Screen < Nyle::Screen
 
   def draw
     @walker.draw
+    Nyle.draw_rect(0, 0, @width, @height, {fill: true, color: :BLACK, a: 0.02})
   end
 
   def update

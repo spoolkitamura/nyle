@@ -3,7 +3,7 @@ require 'gtk3'
 module Samples
   class Launcher < Gtk::Window
     def initialize
-      super()
+      super
       set_title('Nyle samples')
 
       tree = create_tree

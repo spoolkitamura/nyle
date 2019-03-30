@@ -292,5 +292,5 @@ end
 
 
 Frame.new.show_all
-Gtk.main
+Nyle.main
 

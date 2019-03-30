@@ -8,32 +8,40 @@ class Screen < Nyle::Screen
 
   def setup
     @colors      = _color_list
-    @start_index = 0
     @bar_w       = 200
     @bar_h       =  30
+    @start_index =   0
+    @end_index   = _end_index
   end
 
   def draw
-    @colors.each_with_index do |c, i|
-      next if i < @start_index
+    (@start_index..@end_index).each do |i|
       y =  (i - @start_index) * @bar_h
-      Nyle.draw_rect(0, y, @bar_w, @bar_h, {color: c, fill: true})
-      Nyle.draw_text(@bar_w + 10, y + @bar_h - 10, "#{c.to_s}", {color: :BLACK, size: 16})
+      Nyle.draw_rect(0, y, @bar_w, @bar_h, {color: @colors[i], fill: true})
+      Nyle.draw_text(@bar_w + 10, y + @bar_h - 10, "#{@colors[i].to_s}", {color: :BLACK, size: 16})
     end
   end
 
   def update
     if Nyle.key_press?(KEY_Up) or Nyle.mouse_press?(MOUSE_R)
-      @start_index -= (@height / @bar_h)
-      @start_index = (@colors.length / (@height / @bar_h)) * (@height / @bar_h) if @start_index < 0
+      @start_index -= (Nyle.screen_height / @bar_h)
+      @start_index = (@colors.length / (Nyle.screen_height / @bar_h)) * (Nyle.screen_height / @bar_h) if @start_index < 0
+      @end_index   = _end_index
     end
 
     if Nyle.key_press?(KEY_Down) or Nyle.mouse_press?(MOUSE_L)
-      @start_index += (@height / @bar_h)
+      @start_index += (Nyle.screen_height / @bar_h)
       @start_index = 0 if @start_index >= @colors.length
+      @end_index   = _end_index
     end
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)
+  end
+
+  def _end_index
+    index = @start_index + Nyle.screen_height / @bar_h - 1
+    index = @colors.length - 1 if index >= @colors.length
+    index
   end
 
   def _color_list
@@ -306,5 +314,5 @@ end
 
 
 Screen.new.show_all
-Gtk.main
+Nyle.main
 

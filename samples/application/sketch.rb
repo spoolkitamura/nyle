@@ -12,8 +12,8 @@ class Screen < Nyle::Screen
     Nyle.draw_circle(Nyle.mouse_x, Nyle.mouse_y, 10, {color: @color, fill: true}) if Nyle.mouse_down?(MOUSE_L)   # draw  (left-click)
     Nyle.draw_circle(Nyle.mouse_x, Nyle.mouse_y, 10, {color: :WHITE, fill: true}) if Nyle.mouse_down?(MOUSE_R)   # erase (right-click)
 
-    Nyle.draw_text( 10,  20, "[mouse left ]  draw",  {size: 16})
-    Nyle.draw_text( 10,  40, "[mouse right]  erase", {size: 16})
+    # Nyle.draw_text( 10,  20, "[mouse left ]  draw",  {size: 16})
+    # Nyle.draw_text( 10,  40, "[mouse right]  erase", {size: 16})
 
     if @png
       Nyle.save_image("./sketch.png")
@@ -91,5 +91,5 @@ end
 
 
 Frame.new.show_all
-Gtk.main
+Nyle.main
 

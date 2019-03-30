@@ -22,4 +22,4 @@ class Screen < Nyle::Screen
 end
 
 Screen.new.show_all
-Gtk.main
+Nyle.main

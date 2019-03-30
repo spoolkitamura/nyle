@@ -23,8 +23,6 @@ module Nyle
       @running_count = 0
       @status        = nil
 
-      @fill_done     = false
-
       Nyle.module_eval {
         _set_screen_size(width, height)
       }
@@ -46,14 +44,10 @@ module Nyle
           Nyle.module_eval {
             _set_cr(cr)
           }
-          unless @trace                       # If not trace, fill screen each time
-            Nyle.cr.set_source_color(@bgcolor)
-            Nyle.cr.paint
-          else
-            unless @fill_done
-              Nyle.cr.set_source_color(@bgcolor)  # fill once
+          unless @trace                       # If not trace, clear screen each time
+            Nyle.save do
+              Nyle.cr.set_operator(Cairo::Operator::CLEAR)
               Nyle.cr.paint
-              @fill_done = true
             end
           end
           update
@@ -63,8 +57,9 @@ module Nyle
         Nyle.module_eval {
           _set_cr(cairo_context)
         }
-        pattern = Cairo::SurfacePattern.new(@canvas)
-        Nyle.cr.set_source(pattern)
+        Nyle.cr.set_source_color(@bgcolor)
+        Nyle.cr.paint
+        Nyle.cr.set_source(@canvas, 0, 0)
         Nyle.cr.paint
         @running_count += 1
       end
@@ -83,19 +78,34 @@ module Nyle
       end
     end
 
+    # Clear
+    def clear_screen
+      Nyle.cr.set_operator(Cairo::Operator::CLEAR)
+      Nyle.cr.paint
+    end
+
     # When single screen, create frame to show self
-    def show_all(title = DEFAULT_TITLE)
-      f = Nyle::Frame.new(@width, @height, {title: title})
+    def show_all(title: nil, interval: nil)
+      f = Nyle::Frame.new(@width, @height)
       f.set_current(self)
-      f.show_all
+      f.show_all({title: title, interval: interval})
       f
     end
 
+    # Syntax sugar for starting Nyle aplication
+    def start(*args)
+      self.setup
+      self.show_all(*args)
+      Nyle.main
+    end
+
+
     # Abstract methods to be overriden
-    private def update  ; end
-    private def draw    ; end
-    private def suspend ; end
-    private def resume  ; end
+    def update  ; end
+    def draw    ; end
+    def suspend ; end
+    def resume  ; end
+    def setup   ; end
   end
 
 end

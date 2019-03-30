@@ -25,7 +25,7 @@ class Walker
   end
 
   def draw
-    Nyle.draw_circle(@x, @y, RADIUS, {color: :BLUE, fill: true})
+    Nyle.draw_circle(@x, @y, RADIUS, {color: :YELLOW, fill: true})
   end
 end
 
@@ -33,7 +33,7 @@ end
 class Screen < Nyle::Screen
 
   def initialize
-    super(64 * 5, 48 * 5, {bgcolor: :IVORY})
+    super(64 * 5, 48 * 5, {bgcolor: :BLACK})
     @walker = Walker.new(@width, @height)
   end
 
@@ -49,6 +49,6 @@ class Screen < Nyle::Screen
 end
 
 
-Screen.new.show_all
-Gtk.main
+Screen.new.show_all({interval: 30})
+Nyle.main
 

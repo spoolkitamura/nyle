@@ -38,5 +38,5 @@ end
 
 
 Screen.new.show_all
-Gtk.main
+Nyle.main
 

@@ -13,21 +13,15 @@ module Nyle
 
   # Frame
   class Frame < Gtk::Window
-    include Gdk::Keyval                            # Include key definication to omit 'Gdk::Keyval::' for subclass
-    def initialize(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, title: DEFAULT_TITLE)
+    attr_reader :current_screen
+    # include Gdk::Keyval                            # Include key definication to omit 'Gdk::Keyval::' for subclass
+    def initialize(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT)
       super()
       self.set_size_request(width, height)
       self.resizable = false
-      self.title     = title
-      @transition    = []                          # Screen transition table
-      @interval_time = ENV['NYLE_INTERVAL'].to_i   # milli seconds
-      @interval_time = 15 if @interval_time < 5 or @interval_time > 1000
-      GLib::Timeout.add(@interval_time) do
-        if @current_screen
-          update
-          @current_screen.queue_draw unless @current_screen.destroyed?
-        end
-      end
+      self.title     = DEFAULT_TITLE
+      @transition    = []                            # Screen transition table
+      @interval_time = DEFAULT_INTERVAL              # milli seconds
 
       # Nyle main frame
       me = self
@@ -78,6 +72,38 @@ module Nyle
       end
     end
 
+    def show_all(title: nil, interval: nil)
+      super()
+      self.title = title if title
+      if ENV['NYLE_INTERVAL']
+        @interval_time = ENV['NYLE_INTERVAL'].to_i
+      elsif interval
+        @interval_time = interval.to_i
+      end
+      @interval_time = MIN_INTERVAL if @interval_time < MIN_INTERVAL
+      @interval_time = MAX_INTERVAL if @interval_time > MAX_INTERVAL
+
+      @timer = GLib::Timer.new
+      @timer.start
+
+      GLib::Timeout.add(@interval_time, GLib::PRIORITY_HIGH) do
+#        puts "#{@timer.elapsed[0]}" if @timer
+        if @timer
+          elapsed = (@timer.elapsed[0] * 1000).round
+          Nyle.module_eval {
+            _set_running_time(elapsed)
+          }
+          if @current_screen
+            update
+            @current_screen.queue_draw unless @current_screen.destroyed?
+          end
+          true
+        else
+          false
+        end
+      end
+    end
+
     def close
       _quit
     end
@@ -113,6 +139,13 @@ module Nyle
     end
 
     private def _quit
+      @timer.stop
+      @timer = nil                    # as block returns false by this, GLib::Timeout will remove and not be called
+      Nyle.module_eval{
+        _clear_mouse_state
+        _clear_key_state
+        _clear_running_time
+      }
       self.hide
       Gtk.main_quit
     end

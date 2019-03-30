@@ -49,11 +49,11 @@ class Screen < Nyle::Screen
     super
   end
   def draw
-    Nyle.draw_shape(star(160, 100),      {color: :GOLD,         weight: 5, close: true})
+    Nyle.draw_shape(star(160, 100),      {color: :GOLD,         weight: 5, close: true, cap: :ROUND})
     Nyle.draw_shape(star(320, 100),      {color: :GOLD,         weight: 5, close: true, fill: true})
     Nyle.draw_shape(star(480, 100),      {color: :GOLD, a: 0.5, weight: 5, close: true, fill: true})
 
-    Nyle.draw_shape(para_star(160, 240), {color: :BROWN,         weight: 3, close: true})
+    Nyle.draw_shape(para_star(160, 240), {color: :BROWN,         weight: 3, close: true, cap: :ROUND})
     Nyle.draw_shape(para_star(320, 240), {color: :BROWN,         weight: 3, close: true, fill: true})
     Nyle.draw_shape(para_star(480, 240), {color: :BROWN, a: 0.5, weight: 3, close: true, fill: true})
 
@@ -66,5 +66,5 @@ end
 
 
 Screen.new.show_all
-Gtk.main
+Nyle.main
 

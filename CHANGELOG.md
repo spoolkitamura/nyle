@@ -1,3 +1,29 @@
+### 0.7.1 (2019/03/30)
+#### New features
+* add `Nyle.clear` method
+* add `Nyle.running_time` method
+* add `Nyle.main` method
+* add `Nyle.create_screen` method
+* add `Nyle.create_frame` method
+* add `Nyle::Screen#start` method
+* set alias `w` to `screen_width`
+* set alias `h` to `screen_height`
+* enhance `Nyle::Screen#show_all` method to be able to specify the interval time
+
+#### Bug fixes, etc.
+* adjust `draw_shape` method about `cap` option
+
+#### Samples
+* add `pause.rb`
+* add `random_walk_trace_fadeout.rb`
+* add `rotation.rb`
+* add `double_pendulum.rb`
+* adjust `color_chart.rb`
+* adjust `random_walk.rb`
+* adjust `random_walk_trace.rb`
+* use `Nyle.main` method
+
+
 ### 0.7.0 (2019/02/09)
 #### New features
 * enhance `draw_text` to be able to specify font attributes(font-name, italic, bold)
@@ -61,9 +87,9 @@
 #### New features
 * release as RubyGems
 * add `Nyle.draw_shape` method
-* add `a`(alpha value) option in `Nyle.draw_*`
-* add `Nyle::Scneen#suspend` method and `Nyle::Scneen#resume` method
-* give `?` letter to method which returns true ot false
+* add `Nyle::Screen#suspend` method and `Nyle::Screen#resume` method
+* enhance `a`(alpha value) option in `Nyle.draw_*`
+* append `?` letter to method which returns true ot false
 
 
 ### 0.4.0 (2018/11/04)
