@@ -36,17 +36,17 @@ class Screen < Nyle::Screen
     Nyle.draw_rect(390, 280, 60, 40, {fill: true, a: 0.8, color: :FOREST_GREEN})
     Nyle.draw_rect(490, 280, 60, 40, {fill: true, a: 1.0, color: :FOREST_GREEN})
 
-    Nyle.draw_rect( 90, 340, 60, 40, {fill: true, a: 0.2, color: :COBALT})
-    Nyle.draw_rect(190, 340, 60, 40, {fill: true, a: 0.4, color: :COBALT})
-    Nyle.draw_rect(290, 340, 60, 40, {fill: true, a: 0.6, color: :COBALT})
-    Nyle.draw_rect(390, 340, 60, 40, {fill: true, a: 0.8, color: :COBALT})
-    Nyle.draw_rect(490, 340, 60, 40, {fill: true, a: 1.0, color: :COBALT})
+    Nyle.draw_rect( 90, 340, 60, 40, {fill: true, a: 0.2, color: :MEDIUM_BLUE})
+    Nyle.draw_rect(190, 340, 60, 40, {fill: true, a: 0.4, color: :MEDIUM_BLUE})
+    Nyle.draw_rect(290, 340, 60, 40, {fill: true, a: 0.6, color: :MEDIUM_BLUE})
+    Nyle.draw_rect(390, 340, 60, 40, {fill: true, a: 0.8, color: :MEDIUM_BLUE})
+    Nyle.draw_rect(490, 340, 60, 40, {fill: true, a: 1.0, color: :MEDIUM_BLUE})
 
-    Nyle.draw_rect( 90, 400, 60, 40, {fill: true, a: 0.2, color: :GOLD})
-    Nyle.draw_rect(190, 400, 60, 40, {fill: true, a: 0.4, color: :GOLD})
-    Nyle.draw_rect(290, 400, 60, 40, {fill: true, a: 0.6, color: :GOLD})
-    Nyle.draw_rect(390, 400, 60, 40, {fill: true, a: 0.8, color: :GOLD})
-    Nyle.draw_rect(490, 400, 60, 40, {fill: true, a: 1.0, color: :GOLD})
+    Nyle.draw_rect( 90, 400, 60, 40, {fill: true, a: 0.2, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_rect(190, 400, 60, 40, {fill: true, a: 0.4, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_rect(290, 400, 60, 40, {fill: true, a: 0.6, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_rect(390, 400, 60, 40, {fill: true, a: 0.8, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_rect(490, 400, 60, 40, {fill: true, a: 1.0, color: :SCHOOL_BUS_YELLOW})
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end

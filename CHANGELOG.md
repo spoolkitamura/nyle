@@ -1,3 +1,9 @@
+### 0.7.2 (2019/04/14)
+#### Bug fixes, etc.
+* adjust color names due to update `rcairo 1.16.3`
+* use GLib::Idle.add in `frame.rb`
+
+
 ### 0.7.1 (2019/03/30)
 #### New features
 * add `Nyle.clear` method

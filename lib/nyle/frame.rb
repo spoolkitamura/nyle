@@ -86,6 +86,10 @@ module Nyle
       @timer = GLib::Timer.new
       @timer.start
 
+      GLib::Idle.add do   # to improve performance ...(for macOS)
+        true
+      end
+
       GLib::Timeout.add(@interval_time, GLib::PRIORITY_HIGH) do
 #        puts "#{@timer.elapsed[0]}" if @timer
         if @timer

@@ -37,7 +37,7 @@ class Dot
 end
 
 class Screen < Nyle::Screen
-  FGCOLOR = :GOLD
+  FGCOLOR = :SCHOOL_BUS_YELLOW
   BGCOLOR = :BLACK
 
   def initialize

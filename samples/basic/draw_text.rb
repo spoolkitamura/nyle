@@ -40,18 +40,18 @@ class Screen < Nyle::Screen
     Nyle.draw_text(440, 230, "Nyle", {size: 48, color: :FOREST_GREEN, font: "serif", italic: true, bold: true})
 
     Nyle.draw_line( 20, 290, 620, 290, {color: :GRAY, a: 0.1})
-    Nyle.draw_text( 80, 290, "Nyle", {size: 18, color: :COBALT, font: "monospace"})
-    Nyle.draw_text(140, 290, "Nyle", {size: 24, color: :COBALT, font: "monospace"})
-    Nyle.draw_text(220, 290, "Nyle", {size: 32, color: :COBALT, font: "monospace", bold: true})
-    Nyle.draw_text(320, 290, "Nyle", {size: 42, color: :COBALT, font: "monospace", italic: true})
-    Nyle.draw_text(440, 290, "Nyle", {size: 48, color: :COBALT, font: "monospace", italic: true, bold: true})
+    Nyle.draw_text( 80, 290, "Nyle", {size: 18, color: :MEDIUM_BLUE, font: "monospace"})
+    Nyle.draw_text(140, 290, "Nyle", {size: 24, color: :MEDIUM_BLUE, font: "monospace"})
+    Nyle.draw_text(220, 290, "Nyle", {size: 32, color: :MEDIUM_BLUE, font: "monospace", bold: true})
+    Nyle.draw_text(320, 290, "Nyle", {size: 42, color: :MEDIUM_BLUE, font: "monospace", italic: true})
+    Nyle.draw_text(440, 290, "Nyle", {size: 48, color: :MEDIUM_BLUE, font: "monospace", italic: true, bold: true})
 
     Nyle.draw_line( 20, 350, 620, 350, {color: :GRAY, a: 0.1})
-    Nyle.draw_text( 80, 350, "Nyle", {size: 18, color: :GOLD, font: "monospace"})
-    Nyle.draw_text(140, 350, "Nyle", {size: 24, color: :GOLD, font: "monospace"})
-    Nyle.draw_text(220, 350, "Nyle", {size: 32, color: :GOLD, font: "monospace", bold: true})
-    Nyle.draw_text(320, 350, "Nyle", {size: 42, color: :GOLD, font: "monospace", italic: true})
-    Nyle.draw_text(440, 350, "Nyle", {size: 48, color: :GOLD, font: "monospace", italic: true, bold: true})
+    Nyle.draw_text( 80, 350, "Nyle", {size: 18, color: :SCHOOL_BUS_YELLOW, font: "monospace"})
+    Nyle.draw_text(140, 350, "Nyle", {size: 24, color: :SCHOOL_BUS_YELLOW, font: "monospace"})
+    Nyle.draw_text(220, 350, "Nyle", {size: 32, color: :SCHOOL_BUS_YELLOW, font: "monospace", bold: true})
+    Nyle.draw_text(320, 350, "Nyle", {size: 42, color: :SCHOOL_BUS_YELLOW, font: "monospace", italic: true})
+    Nyle.draw_text(440, 350, "Nyle", {size: 48, color: :SCHOOL_BUS_YELLOW, font: "monospace", italic: true, bold: true})
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end

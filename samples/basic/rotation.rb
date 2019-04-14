@@ -6,7 +6,7 @@ class Screen < Nyle::Screen
     @th      = 0
     @c1      = :RED
     @c2      = :ORANGE
-    @c3      = :GOLD
+    @c3      = :SCHOOL_BUS_YELLOW
     @x       = Nyle.w / 2
     @y       = Nyle.h / 2
     @rt_last = 0

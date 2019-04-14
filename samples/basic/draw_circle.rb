@@ -30,17 +30,17 @@ class Screen < Nyle::Screen
     Nyle.draw_circle(420, 270, 30, {fill: true, a: 0.8, color: :FOREST_GREEN})
     Nyle.draw_circle(520, 270, 30, {fill: true, a: 1.0, color: :FOREST_GREEN})
 
-    Nyle.draw_circle(120, 340, 30, {fill: true, a: 0.2, color: :COBALT})
-    Nyle.draw_circle(220, 340, 30, {fill: true, a: 0.4, color: :COBALT})
-    Nyle.draw_circle(320, 340, 30, {fill: true, a: 0.6, color: :COBALT})
-    Nyle.draw_circle(420, 340, 30, {fill: true, a: 0.8, color: :COBALT})
-    Nyle.draw_circle(520, 340, 30, {fill: true, a: 1.0, color: :COBALT})
+    Nyle.draw_circle(120, 340, 30, {fill: true, a: 0.2, color: :MEDIUM_BLUE})
+    Nyle.draw_circle(220, 340, 30, {fill: true, a: 0.4, color: :MEDIUM_BLUE})
+    Nyle.draw_circle(320, 340, 30, {fill: true, a: 0.6, color: :MEDIUM_BLUE})
+    Nyle.draw_circle(420, 340, 30, {fill: true, a: 0.8, color: :MEDIUM_BLUE})
+    Nyle.draw_circle(520, 340, 30, {fill: true, a: 1.0, color: :MEDIUM_BLUE})
 
-    Nyle.draw_circle(120, 410, 30, {fill: true, a: 0.2, color: :GOLD})
-    Nyle.draw_circle(220, 410, 30, {fill: true, a: 0.4, color: :GOLD})
-    Nyle.draw_circle(320, 410, 30, {fill: true, a: 0.6, color: :GOLD})
-    Nyle.draw_circle(420, 410, 30, {fill: true, a: 0.8, color: :GOLD})
-    Nyle.draw_circle(520, 410, 30, {fill: true, a: 1.0, color: :GOLD})
+    Nyle.draw_circle(120, 410, 30, {fill: true, a: 0.2, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_circle(220, 410, 30, {fill: true, a: 0.4, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_circle(320, 410, 30, {fill: true, a: 0.6, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_circle(420, 410, 30, {fill: true, a: 0.8, color: :SCHOOL_BUS_YELLOW})
+    Nyle.draw_circle(520, 410, 30, {fill: true, a: 1.0, color: :SCHOOL_BUS_YELLOW})
 
     Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
