@@ -171,6 +171,10 @@ module Nyle
     private def _clear_running_time
       @__running_time = 0
     end
+
+    private def _clear_layer
+      Screen::Layer.clear
+    end
   end
 
 
@@ -297,6 +301,7 @@ module Nyle
       delta = (Nyle.module_eval{ @__os } == :mac ? size * (72.0 / 96.0) : size)
       cr.move_to(x, y - delta)   # Why :mac?
       cr.show_pango_layout(pango_layout)
+      cr.new_path
     end
   end
 
@@ -403,6 +408,24 @@ module Nyle
   module_function def scale(sx, sy)
     cr = Nyle.module_eval{ @__cr }
     cr.scale(sx, sy)
+  end
+
+  module_function def layer(id = :__)
+    if block_given?
+      cr = Nyle.cr
+      layer = Screen::Layer.create(id, Nyle.w, Nyle.h)
+      Cairo::Context.new(layer) do |cr_layer|
+        Nyle.module_eval {
+          _set_cr(cr_layer)
+        }
+        yield(layer)
+      end
+      Nyle.module_eval {
+        _set_cr(cr)
+      }
+      Nyle.cr.set_source(layer, 0, 0)
+      Nyle.cr.paint
+    end
   end
 
   module_function def create_screen(*args)

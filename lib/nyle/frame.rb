@@ -149,6 +149,7 @@ module Nyle
         _clear_mouse_state
         _clear_key_state
         _clear_running_time
+        _clear_layer
       }
       self.hide
       Gtk.main_quit

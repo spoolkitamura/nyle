@@ -13,6 +13,30 @@ module Nyle
 
   # Screen
   class Screen < Gtk::DrawingArea
+    class Layer < Cairo::ImageSurface
+      @@layers = {}
+      private_class_method :new   # refuse to make an instance using 'new' from outside, so 'create' instead.
+      def initialize(w, h)
+        super(w, h)
+      end
+      def self.create(id, w, h)
+        #puts "#{id} #{w} #{h}"
+        if @@layers.has_key?(id)
+          @@layers[id]            # existing instance
+        else
+          layer = new(w, h)
+          @@layers[id] = layer
+          layer                   # new instance
+        end
+      end
+      def self.clear
+        @@layers.clear
+      end
+      def self.status
+        p @@layers
+      end
+    end
+
     attr_reader :width, :height, :status
     def initialize(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, bgcolor: :WHITE, trace: false)
       super()
@@ -80,8 +104,10 @@ module Nyle
 
     # Clear
     def clear_screen
-      Nyle.cr.set_operator(Cairo::Operator::CLEAR)
-      Nyle.cr.paint
+      Nyle.save do
+        Nyle.cr.set_operator(Cairo::Operator::CLEAR)
+        Nyle.cr.paint
+      end
     end
 
     # When single screen, create frame to show self

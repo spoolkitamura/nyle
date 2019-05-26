@@ -2,12 +2,13 @@ require 'nyle'
 
 class Walker
   RADIUS = 4
-  def initialize(max_x, max_y)
+  def initialize(max_x, max_y, color = :YELLOW)
     @max_x = max_x
     @max_y = max_y
     @x = max_x / 2.0
     @y = max_y / 2.0
     @step = 5
+    @color = color
   end
 
   # Randomly move up, down, left, right
@@ -25,7 +26,7 @@ class Walker
   end
 
   def draw
-    Nyle.draw_circle(@x, @y, RADIUS, {color: :YELLOW, fill: true})
+    Nyle.draw_circle(@x, @y, RADIUS, {color: @color, fill: true})
   end
 end
 
@@ -33,7 +34,7 @@ end
 class Screen < Nyle::Screen
 
   def initialize
-    super(64 * 5, 48 * 5, {bgcolor: :BLACK, trace: true})
+    super(320, 240, {bgcolor: :BLACK, trace: true})
     @walker = Walker.new(@width, @height)
   end
 

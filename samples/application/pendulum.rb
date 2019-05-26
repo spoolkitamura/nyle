@@ -169,7 +169,8 @@ class Screen < Nyle::Screen
     @a2_v = 0
     @a1   = Math::PI / 2
     @a2   = Math::PI / 2
-    @points = []
+    @last_x = nil
+    @last_y = nil
   end
 
   def update
@@ -201,12 +202,14 @@ class Screen < Nyle::Screen
     x2 = x1 + @L2 * Math.sin(@a2)
     y2 = y1 + @L2 * Math.cos(@a2)
 
-    Nyle.save do
-     Nyle.translate(@cx, @cy)
-     Nyle.draw_shape(@points, {weight: 1, color: :BLUE})
+    Nyle.layer do
+      Nyle.save do
+       Nyle.translate(@cx, @cy)
+       Nyle.draw_line(@last_x, @last_y, x2, y2, {weight: 1, color: :BLUE}) if @last_x and @last_y
+      end
     end
-    @points << [x2, y2]
-    @points.shift if @points.length > 2000
+    @last_x = x2
+    @last_y = y2
 
     Nyle.save do
       Nyle.translate(@cx, @cy)
@@ -218,6 +221,8 @@ class Screen < Nyle::Screen
       Nyle.draw_line(x1, y1, x2, y2)
       Nyle.draw_circle(x2, y2, @M2, {color: :BLACK, fill: true})
     end
+
+    Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 end
 

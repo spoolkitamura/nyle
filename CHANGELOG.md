@@ -1,3 +1,16 @@
+### 0.7.3 (2019/05/26)
+#### New features
+* add `Nyle.layer` method
+
+#### Bug fixes, etc.
+* adjust `Nyle.draw_text`
+
+#### Samples
+* add `random_walk_trace_layer.rb`
+* add `fourier_series.rb`
+* adjust `pendulum.rb` to use `Nyle.layer`
+
+
 ### 0.7.2 (2019/04/14)
 #### Bug fixes, etc.
 * adjust color names due to update `rcairo 1.16.3`
