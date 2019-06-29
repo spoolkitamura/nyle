@@ -1,3 +1,13 @@
+### 0.7.4 (2019/06/29)
+#### Bug fixes, etc.
+* enhance definition of `MouseButton` and `Keycodes` to use Symbol
+
+#### Samples
+* adjust `keyboard.rb` to use Symbol
+* adjust `pause.rb`
+* adjust `rotation.rb`
+
+
 ### 0.7.3 (2019/05/26)
 #### New features
 * add `Nyle.layer` method

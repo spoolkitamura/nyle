@@ -25,6 +25,8 @@ class Screen < Nyle::Screen
       @draw    = !@draw
       Nyle.clear if @draw
     end
+
+    Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 end
 

@@ -14,18 +14,12 @@ require 'rbconfig'
 require 'nyle/version'
 require 'nyle/frame'
 require 'nyle/screen'
-
-Gdk::Keyval.constants.each do |c|
- #puts "#{c} #{Gdk::Keyval.const_get(c)}"
-  eval("#{c} = #{Gdk::Keyval.const_get(c)}")   # key name definication to omit 'Gdk::Keyval::'
-end
-
-MOUSE_L = 1
-MOUSE_M = 2
-MOUSE_R = 3
+require 'nyle/define_table'
 
 module Nyle
   class Error < StandardError; end
+
+  extend DefineTable
 
   DEFAULT_WIDTH      =   640
   DEFAULT_HEIGHT     =   480
@@ -132,17 +126,17 @@ module Nyle
           @__mask_shift = false                                  # Set false to mask_shift status
         end
 
-        if @__key_down[Gdk::Keyval::KEY_Right]
+        if @__key_down[KEY_Right]
           @__cursor_x = +1                                       # Set +1 to cursor_x value
-        elsif @__key_down[Gdk::Keyval::KEY_Left]
+        elsif @__key_down[KEY_Left]
           @__cursor_x = -1                                       # Set -1 to cursor_x value
         else
           @__cursor_x =  0
         end
 
-        if @__key_down[Gdk::Keyval::KEY_Down]
+        if @__key_down[KEY_Down]
           @__cursor_y = +1                                       # Set +1 to cursor_y value
-        elsif @__key_down[Gdk::Keyval::KEY_Up]
+        elsif @__key_down[KEY_Up]
           @__cursor_y = -1                                       # Set -1 to cursor_y value
         else
           @__cursor_y =  0
@@ -185,12 +179,14 @@ module Nyle
   module_function def screen_height           ;  Nyle.module_eval{ @__screen_height                 } ; end
   module_function def mouse_x                 ;  Nyle.module_eval{ @__mouse_x                       } ; end
   module_function def mouse_y                 ;  Nyle.module_eval{ @__mouse_y                       } ; end
-  module_function def mouse_down?(button)     ;  Nyle.module_eval{ @__mouse_down   [button] == true } ; end
-  module_function def mouse_press?(button)    ;  Nyle.module_eval{ @__mouse_press  [button] == true } ; end
-  module_function def mouse_release?(button)  ;  Nyle.module_eval{ @__mouse_release[button] == true } ; end
-  module_function def key_down?(keyval)       ;  Nyle.module_eval{ @__key_down     [keyval] == true } ; end
-  module_function def key_press?(keyval)      ;  Nyle.module_eval{ @__key_press    [keyval] == true } ; end
-  module_function def key_release?(keyval)    ;  Nyle.module_eval{ @__key_release  [keyval] == true } ; end
+
+  module_function def mouse_down?(button)     ; _check_button(@__mouse_down,    button)               ; end 
+  module_function def mouse_press?(button)    ; _check_button(@__mouse_press,   button)               ; end
+  module_function def mouse_release?(button)  ; _check_button(@__mouse_release, button)               ; end
+  module_function def key_down?(key)          ; _check_key(   @__key_down,      key)                  ; end
+  module_function def key_press?(key)         ; _check_key(   @__key_press,     key)                  ; end
+  module_function def key_release?(key)       ; _check_key(   @__key_release,   key)                  ; end
+
   module_function def mask_control?           ;  Nyle.module_eval{ @__mask_control                  } ; end
   module_function def mask_shift?             ;  Nyle.module_eval{ @__mask_shift                    } ; end
   module_function def cursor_x                ;  Nyle.module_eval{ @__cursor_x                      } ; end

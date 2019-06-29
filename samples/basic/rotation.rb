@@ -26,6 +26,8 @@ class Screen < Nyle::Screen
       @c1, @c2, @c3 = @c2, @c3, @c1
     end
     @th += Math::PI / 128
+
+    Nyle.quit if Nyle.key_press?(KEY_Escape)
   end
 end
 
