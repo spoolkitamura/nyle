@@ -1,3 +1,8 @@
+### 0.7.5 (2019/10/19)
+#### Bug fixes, etc.
+* modify `nyle.gemspec` to support gtk3-3.4.x or later
+
+
 ### 0.7.4 (2019/06/29)
 #### Bug fixes, etc.
 * enhance definition of `MouseButton` and `Keycodes` to use Symbol
